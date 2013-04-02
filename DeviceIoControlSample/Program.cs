@@ -14,17 +14,17 @@ namespace DeviceIoControlSample
 		static void Main()
 		{
 			//入力処理
-			Console.WriteLine( "CDドライブ文字を入力してください（Fとか。）" );
+			Console.WriteLine( "enter the CD Drive char（ ex...　\"F\"とか。）" );
 			string volume = string.Format( @"\\.\{0}:", Console.ReadLine() );
 
-			Console.WriteLine( "読み込み速度 kilobytes per second. を入力してください。" );
+			Console.WriteLine( "enter the read speed of CD drive ( kilobytes per second )" );
 			string readSpeedString = Console.ReadLine();
 
 			//読み取り速度の判定
 			ushort readSpeed;
 			if( ! ushort.TryParse( readSpeedString, out readSpeed ) )
 			{
-				Console.WriteLine( "入力値誤り" );
+				Console.WriteLine( "Error : Numerical value of the speed " );
 				return;
 			}
 
@@ -33,7 +33,7 @@ namespace DeviceIoControlSample
 			bool handleCreated = CreateHandle( volume, out  handle );
 			if( !handleCreated )
 			{
-				Console.WriteLine( "ハンドル作成失敗" );
+				Console.WriteLine( "Failed : Create Handle" );
 				return;
 			}
 
@@ -116,8 +116,6 @@ namespace DeviceIoControlSample
 		const uint FILE_SHARE_WRITE = 0x00000002;
 		/// <summary>物理ディスクを指定する場合、OPEN_EXISTINGを指定しなければいけないらしい </summary>
 		const uint OPEN_EXISTING = 3;
-		/// <summary>メソッドの最後にMarshal.GetLastWin32Error()を呼び出してセットした値</summary>
-		static int LastWin32Error;
 
 		/// <summary>DeviceIoControlの制御コード
 		/// CDドライブの回転速度指定</summary>
@@ -171,7 +169,7 @@ namespace DeviceIoControlSample
 		}
 
 		/// <summary>
-		/// CD操作に必要な構造体に必要な構造体を定義
+		/// CD操作に必要な構造体に必要なEnumを定義
 		///The CDROM_SPEED_REQUEST enumeration indicates which command that the CD-ROM class driver will use to set the spindle speed of a CD-ROM drive.
 		/// </summary>
 		/// <see cref="http://msdn.microsoft.com/ja-JP/library/windows/hardware/ff551370(v=vs.85).aspx"/>
@@ -182,7 +180,7 @@ namespace DeviceIoControlSample
 		}
 
 		/// <summary>
-		/// CD操作に必要な構造体に必要な構造体を定義
+		/// CD操作に必要な構造体に必要なEnumを定義
 		/// The WRITE_ROTATION enumeration specifies whether a CD-ROM drive uses constant linear velocity (CLV) rotation or constant angular velocity (CAV) rotation when it writes to a CD.
 		/// </summary>
 		/// <see cref="http://msdn.microsoft.com/ja-JP/library/windows/hardware/ff568045(v=vs.85).aspx"/>
